@@ -1,16 +1,166 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.geometry.Insets?>
-<?import javafx.scene.control.Label?>
-<?import javafx.scene.layout.VBox?>
-
+<?import javafx.scene.Cursor?>
 <?import javafx.scene.control.Button?>
-<VBox alignment="CENTER" spacing="20.0" xmlns:fx="http://javafx.com/fxml"
-      fx:controller="fr.cda.findboat.HelloController">
-    <padding>
-        <Insets bottom="20.0" left="20.0" right="20.0" top="20.0"/>
-    </padding>
+<?import javafx.scene.control.CheckBox?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.DatePicker?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Menu?>
+<?import javafx.scene.control.MenuBar?>
+<?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.control.SplitPane?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.text.Font?>
 
-    <Label fx:id="welcomeText"/>
-    <Button text="Hello!" onAction="#onHelloButtonClick"/>
-</VBox>
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="900.0" prefWidth="1600.0" style="-fx-background-color: white;" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="fr.cda.findboat.view.MainViewImpl">
+   <children>
+      <MenuBar AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+        <menus>
+          <Menu mnemonicParsing="false" text="Fichier">
+            <items>
+              <MenuItem mnemonicParsing="false" text="Enregistrer dans un fichier" />
+                  <MenuItem mnemonicParsing="false" text="Envoi Couriel" />
+                  <MenuItem mnemonicParsing="false" text="Enregistrer dans la base de données" />
+                  <MenuItem mnemonicParsing="false" text="Quitter" />
+            </items>
+          </Menu>
+          <Menu mnemonicParsing="false" text="Paramètres">
+            <items>
+              <MenuItem mnemonicParsing="false" text="Base de données" />
+            </items>
+          </Menu>
+          <Menu mnemonicParsing="false" text="Aide">
+            <items>
+              <MenuItem mnemonicParsing="false" text="Mode d'emploi" />
+            </items>
+          </Menu>
+        </menus>
+         <padding>
+            <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+         </padding>
+      </MenuBar>
+      <SplitPane dividerPositions="0.65" orientation="VERTICAL" prefHeight="900.0" prefWidth="1600.0" style="-fx-background-color: white;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="34.0">
+        <items>
+          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0">
+               <children>
+                  <TableView prefHeight="864.0" prefWidth="906.0" style="-fx-background-radius: 0 0 20 20;" AnchorPane.bottomAnchor="30.0" AnchorPane.leftAnchor="30.0" AnchorPane.rightAnchor="30.0" AnchorPane.topAnchor="30.0">
+                    <columns>
+                        <TableColumn prefWidth="75.0" text="Photo" />
+                      <TableColumn prefWidth="75.0" text="Titre" />
+                      <TableColumn prefWidth="75.0" text="Type" />
+                        <TableColumn prefWidth="75.0" text="Description" />
+                        <TableColumn prefWidth="75.0" text="Capacité" />
+                        <TableColumn prefWidth="75.0" text="Longueur" />
+                        <TableColumn prefWidth="75.0" text="Année" />
+                    </columns>
+                     <columnResizePolicy>
+                        <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
+                     </columnResizePolicy>
+                  </TableView>
+               </children>
+            </AnchorPane>
+          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0">
+               <children>
+                  <HBox prefHeight="173.0" prefWidth="1598.0" AnchorPane.bottomAnchor="126.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                     <children>
+                        <Pane prefHeight="152.0" prefWidth="267.0">
+                           <children>
+                              <ImageView fitHeight="148.0" fitWidth="176.0" layoutX="46.0" layoutY="21.0" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@../../../../java/fr/cda/findboat/media/findBoat.png" />
+                                 </image>
+                              </ImageView>
+                              <Label layoutX="73.0" layoutY="94.0" text="Find'BOAT" textFill="#0076e9">
+                                 <font>
+                                    <Font name="System Bold" size="24.0" />
+                                 </font>
+                              </Label>
+                           </children>
+                        </Pane>
+                        <Pane prefHeight="173.0" prefWidth="1342.0">
+                           <children>
+                              <Label layoutX="81.0" layoutY="25.0" text="Date de début">
+                                 <font>
+                                    <Font size="13.0" />
+                                 </font>
+                              </Label>
+                              <Label layoutX="81.0" layoutY="98.0" text="Date de fin">
+                                 <font>
+                                    <Font size="13.0" />
+                                 </font>
+                              </Label>
+                              <DatePicker fx:id="startDate" layoutX="81.0" layoutY="49.0" prefHeight="25.0" prefWidth="199.0" style="-fx-background-radius: 5;">
+                                 <padding>
+                                    <Insets bottom="1.0" left="2.0" right="2.0" top="1.0" />
+                                 </padding>
+                              </DatePicker>
+                              <DatePicker fx:id="endDate" layoutX="81.0" layoutY="124.0" prefHeight="25.0" prefWidth="199.0" style="-fx-background-radius: 5;">
+                                 <padding>
+                                    <Insets bottom="1.0" left="2.0" right="2.0" top="1.0" />
+                                 </padding>
+                              </DatePicker>
+                              <Label layoutX="447.0" layoutY="25.0" text="Type de bateaux">
+                                 <font>
+                                    <Font size="13.0" />
+                                 </font>
+                              </Label>
+                              <Label layoutX="447.0" layoutY="98.0" text="Ville">
+                                 <font>
+                                    <Font size="13.0" />
+                                 </font>
+                              </Label>
+                              <ComboBox fx:id="boatType" layoutX="447.0" layoutY="48.0" prefHeight="25.0" prefWidth="221.0" style="-fx-border-radius: 5; -fx-background-color: white; -fx-border-color: #D3D3D3;">
+                                 <padding>
+                                    <Insets bottom="1.0" left="2.0" right="2.0" top="1.0" />
+                                 </padding>
+                              </ComboBox>
+                              <TextField fx:id="locationField" layoutX="448.0" layoutY="123.0" prefHeight="25.0" prefWidth="221.0" style="-fx-background-radius: 5;">
+                                 <padding>
+                                    <Insets bottom="5.0" left="4.0" right="4.0" top="5.0" />
+                                 </padding>
+                              </TextField>
+                              <CheckBox fx:id="site1" layoutX="830.0" layoutY="47.0" mnemonicParsing="false" text="CheckBox" />
+                              <CheckBox fx:id="site2" layoutX="830.0" layoutY="92.0" mnemonicParsing="false" text="CheckBox" />
+                              <CheckBox fx:id="site3" layoutX="830.0" layoutY="133.0" mnemonicParsing="false" text="CheckBox" />
+                           </children>
+                        </Pane>
+                     </children>
+                  </HBox>
+                  <HBox alignment="CENTER" layoutY="177.0" prefHeight="122.0" prefWidth="1598.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="177.0">
+                     <children>
+                        <Button fx:id="delete" mnemonicParsing="false" prefHeight="50.0" prefWidth="150.0" style="-fx-background-radius: 10; -fx-background-color: #E07C86;" text="Effacer">
+                           <font>
+                              <Font name="Arial Rounded MT Bold" size="18.0" />
+                           </font>
+                           <HBox.margin>
+                              <Insets right="30.0" />
+                           </HBox.margin>
+                           <cursor>
+                              <Cursor fx:constant="HAND" />
+                           </cursor>
+                        </Button>
+                        <Button fx:id="search" mnemonicParsing="false" prefHeight="50.0" prefWidth="150.0" style="-fx-background-radius: 10; -fx-background-color: #649EF4;" text="Rechercher">
+                           <font>
+                              <Font name="Arial Rounded MT Bold" size="18.0" />
+                           </font>
+                           <cursor>
+                              <Cursor fx:constant="HAND" />
+                           </cursor>
+                        </Button>
+                     </children>
+                  </HBox>
+               </children>
+            </AnchorPane>
+        </items>
+      </SplitPane>
+   </children>
+</AnchorPane>

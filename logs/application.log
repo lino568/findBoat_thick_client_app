@@ -1,0 +1,1 @@
+2025-11-19 14:26:19,207 INFO  f.c.f.s.CrouestyLocationScraper - An error occurred when reading the URLorg.jsoup.HttpStatusException: HTTP error fetching URL. Status=500, URL=[https://www.crouesty-location.com/disponibilites/]

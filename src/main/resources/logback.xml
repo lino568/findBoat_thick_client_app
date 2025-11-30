@@ -1,0 +1,17 @@
+<configuration>
+
+    <!-- APPENDER : écrit dans un seul fichier -->
+    <appender name="FILE" class="ch.qos.logback.core.FileAppender">
+        <file>logs/application.log</file>
+        <append>true</append> <!-- on ajoute à la suite sans écraser -->
+        <encoder>
+            <pattern>%date %-5level %logger{36} - %msg%n</pattern>
+        </encoder>
+    </appender>
+
+    <!-- LOGGER ROOT : uniquement fichier -->
+    <root level="INFO">
+        <appender-ref ref="FILE" />
+    </root>
+
+</configuration>
