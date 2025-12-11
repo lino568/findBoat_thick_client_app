@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="fr.cda.findboat.view.EmailForPdfImpl">
+   <children>
+      <Label layoutX="210.0" layoutY="75.0" text="Saisie du courriel">
+         <font>
+            <Font size="24.0" />
+         </font>
+      </Label>
+      <Label layoutX="155.0" layoutY="154.0" text="Veuillez saisir l'email de l'expéditeur ">
+         <font>
+            <Font size="18.0" />
+         </font>
+      </Label>
+      <TextField fx:id="email" layoutX="132.0" layoutY="216.0" prefHeight="25.0" prefWidth="337.0">
+         <padding>
+            <Insets bottom="3.0" left="5.0" right="5.0" top="3.0" />
+         </padding>
+      </TextField>
+      <Button fx:id="cancel" layoutX="175.0" layoutY="310.0" mnemonicParsing="false" style="-fx-background-radius: 5;" text="Annuler">
+         <font>
+            <Font size="15.0" />
+         </font>
+         <padding>
+            <Insets bottom="8.0" left="15.0" right="15.0" top="8.0" />
+         </padding>
+      </Button>
+      <Button fx:id="sendEmail" layoutX="332.0" layoutY="310.0" mnemonicParsing="false" style="-fx-background-radius: 5;" text="Envoyer">
+         <font>
+            <Font size="15.0" />
+         </font>
+         <padding>
+            <Insets bottom="8.0" left="15.0" right="15.0" top="8.0" />
+         </padding>
+      </Button>
+      <Label fx:id="errorMessage" alignment="CENTER" layoutX="125.0" layoutY="266.0" prefHeight="17.0" prefWidth="352.0" textFill="#bf3d3d" />
+   </children>
+</AnchorPane>
