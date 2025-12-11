@@ -1,36 +1,39 @@
 package fr.cda.findboat;
 
+import com.fasterxml.jackson.databind.node.ObjectNode;
+import fr.cda.findboat.controller.EmailForPdfController;
 import fr.cda.findboat.controller.MainController;
-import fr.cda.findboat.repository.BoatRepository;
 import fr.cda.findboat.repository.BoatRepositoryImpl;
 import fr.cda.findboat.repository.TypeRepository;
 import fr.cda.findboat.repository.TypeRepositoryImpl;
 import fr.cda.findboat.service.BoatService;
+import fr.cda.findboat.service.DatabaseInfoService;
 import fr.cda.findboat.task.TaskAutoComplete;
+import fr.cda.findboat.view.EmailForPdfImpl;
+import fr.cda.findboat.view.EmailForPdfViewInterface;
 import fr.cda.findboat.view.MainViewImpl;
-import fr.cda.findboat.view.MainViewInterface;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
-import java.io.IOException;
-
 public class Main extends Application {
     @Override
-    public void start(Stage stage) throws IOException {
+    public void start(Stage stage) throws Exception {
         FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("main-view.fxml"));
         Parent root = fxmlLoader.load();
 
         TypeRepository typeRepository = new TypeRepositoryImpl();
-        BoatRepository boatRepository = new BoatRepositoryImpl(typeRepository);
+        new BoatRepositoryImpl(typeRepository);
 
         BoatService boatService = new BoatService();
 
         MainViewImpl mainView = fxmlLoader.getController();
+        EmailForPdfViewInterface emailForPdfView = new EmailForPdfImpl();
 
-        MainController mainController = new MainController();
+        new EmailForPdfController(emailForPdfView);
+        MainController mainController = new MainController(boatService);
 
         mainController.setMainView(mainView);
         mainController.listeners();

@@ -17,20 +17,28 @@ import java.util.List;
 
 public class AutoCompleteAPI {
 
-    private static final String url = "https://geo.api.gouv.fr/communes?nom=";
+    private static final String URL = "https://geo.api.gouv.fr/communes?nom=";
     private static final Logger log = LoggerFactory.getLogger(AutoCompleteAPI.class);
 
+    private AutoCompleteAPI() {
+    }
+
+    /**
+     * Récupère une liste de villes françaises correspondant au texte saisi.
+     * Utilise l'API geo.api.gouv.fr pour la recherche.
+     *
+     * @param cityValue le début du nom de la ville à rechercher
+     * @return une liste de noms de villes correspondants
+     */
     public static List<String> getCities(String cityValue) {
         List<String> cities = new ArrayList<>();
-        try {
-            HttpClient client = HttpClient.newHttpClient();
+        try (HttpClient client = HttpClient.newHttpClient()) {
 
             HttpRequest request = HttpRequest.newBuilder()
-                    .uri(new URI(url + cityValue))
+                    .uri(new URI(URL + cityValue))
                     .GET()
                     .build();
 
-            try {
                 HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
 
                 int statusCode = response.statusCode();
@@ -49,23 +57,14 @@ public class AutoCompleteAPI {
                     return cities;
 
                 } else {
-                    log.warn("Erreur lors de l'appel API : " + responseBody );
+                    log.warn("Erreur lors de l'appel API : {}", responseBody );
                 }
-
-            } catch (IOException e) {
-                log.warn("Erreur d'entrée/sortie lors de la communication : " + e);
-            } catch (InterruptedException _) {
-
-            }
 
         } catch (UncheckedIOException e) {
             log.warn("Erreur IO non vérifiée", e);
-        } catch (URISyntaxException ex) {
+        } catch (URISyntaxException | IOException | InterruptedException ex) {
             throw new RuntimeException(ex);
         }
-
         return cities;
     }
-
-
 }

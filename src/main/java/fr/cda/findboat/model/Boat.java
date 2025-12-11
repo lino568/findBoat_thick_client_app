@@ -10,9 +10,10 @@ public class Boat {
     private int capacity;
     private String pictureUrl;
     private double weekPrice;
+    private String url;
     private Type type;
 
-    public Boat(String title, String description, double length, int year, int capacity, String pictureUrl, double weekPrice, Type type) {
+    public Boat(String title, String description, double length, int year, int capacity, String pictureUrl, double weekPrice, String url, Type type) {
         this.id = null;
         this.title = title;
         this.description = description;
@@ -21,10 +22,11 @@ public class Boat {
         this.capacity = capacity;
         this.pictureUrl = pictureUrl;
         this.weekPrice = weekPrice;
+        this.url = url;
         this.type = type;
     }
 
-    public Boat(int id, String title, String description, double length, int year, int capacity, String pictureUrl, double weekPrice, Type type) {
+    public Boat(int id, String title, String description, double length, int year, int capacity, String pictureUrl, double weekPrice, String url, Type type) {
         this.id = id;
         this.title = title;
         this.description = description;
@@ -33,6 +35,7 @@ public class Boat {
         this.capacity = capacity;
         this.pictureUrl = pictureUrl;
         this.weekPrice = weekPrice;
+        this.url = url;
         this.type = type;
     }
 
@@ -100,9 +103,18 @@ public class Boat {
         this.weekPrice = weekPrice;
     }
 
+    public String getUrl() {
+        return url;
+    }
+
+    public void setUrl(String url) {
+        this.url = url;
+    }
+
     public Type getType() {
         return type;
     }
+
 
     public void setType(Type type) {
         this.type = type;

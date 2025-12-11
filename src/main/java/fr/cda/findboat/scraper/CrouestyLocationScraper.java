@@ -16,9 +16,21 @@ import java.util.List;
 
 public class CrouestyLocationScraper {
 
-    private static Logger log = LoggerFactory.getLogger(CrouestyLocationScraper.class);
-    private static String url = "https://www.crouesty-location.com";
+    private final static Logger log = LoggerFactory.getLogger(CrouestyLocationScraper.class);
+    private final static String url = "https://www.crouesty-location.com";
 
+    private CrouestyLocationScraper() {
+    }
+
+    /**
+     * Configure les paramètres de recherche et effectue une requête POST.
+     *
+     * @param boatType le type de bateau recherché
+     * @param startDate la date de début de location
+     * @param endDate la date de fin de location
+     * @return le document HTML de la page de résultats
+     * @throws IOException si la connexion échoue
+     */
     public static Document setParameters(BoatType boatType, LocalDate startDate, LocalDate endDate) throws IOException {
 
         String type = "";
@@ -41,14 +53,20 @@ public class CrouestyLocationScraper {
                     .post();
 
         } catch (IOException e) {
-            log.info("An error occurred when reading the main page URL" + e);
-            throw new IOException(e);
+            log.info("An error occurred when reading the main page URL", e);
+            throw new IOException("An error occurred when reading the main page URL", e);
         }
     }
 
+    /**
+     * Extrait les liens des bateaux depuis la page de résultats.
+     *
+     * @param boatsPage le document HTML contenant les résultats
+     * @return la liste des URLs des bateaux
+     */
     public static List<String> getLinks(Document boatsPage) {
 
-        int maxLinks = 10;
+        int maxLinks = 50;
 
         List<String> boatslink = new ArrayList<>();
         Elements boatsElement = boatsPage.select("div.bateau-content");
@@ -65,6 +83,14 @@ public class CrouestyLocationScraper {
         return boatslink;
     }
 
+    /**
+     * Récupère les données détaillées d'un bateau depuis son URL.
+     *
+     * @param boatType le type de bateau
+     * @param boatLink l'URL de la page du bateau
+     * @return un HashMap contenant toutes les données du bateau
+     * @throws IOException si la récupération échoue
+     */
     public static HashMap<String, String> getBoatData(BoatType boatType, String boatLink) throws IOException {
         HashMap<String, String> boatValues = new HashMap<>();
         String capacity = "";
@@ -107,7 +133,7 @@ public class CrouestyLocationScraper {
             String weekPrice = "";
 
             if (boatType == BoatType.VOILIER) {
-            weekPrice = weekPriceDiv.selectFirst("td.prix").text();
+                weekPrice = weekPriceDiv.selectFirst("td.prix").text();
 
             } else if (boatType == BoatType.BATEAU_A_MOTEUR) {
                 weekPrice =  boatPage.select("tbody tr").get(1).select("td").get(2).text();
@@ -121,24 +147,14 @@ public class CrouestyLocationScraper {
             boatValues.put("capacity", capacity);
             boatValues.put("pictureUrl", mainPictureLink);
             boatValues.put("weekPrice", weekPrice);
+            boatValues.put("boatUrl", boatLink);
             boatValues.put("type", boatType.getLibelle());
 
             return boatValues;
 
         } catch (IOException e) {
-            log.info("An error occurred when reading the boat page URL" + e);
+            log.info("An error occurred when reading the boat page URL {}", (Object) e.getStackTrace());
             throw new IOException(e);
         }
-    }
-
-    public static void main(String[] args) throws IOException {
-        CrouestyLocationScraper scraper = new CrouestyLocationScraper();
-//        Document dom = scraper.setParameters(BoatType.BATEAU_A_MOTEUR, LocalDate.now(), LocalDate.now().plusDays(1));
-//        List<String> links = scraper.getLinks(dom);
-//        System.out.println(links);
-//        for (String link : links) {
-//            scraper.getBoatData(BoatType.BATEAU_A_MOTEUR, link);
-//        }
-        System.out.println(scraper.getBoatData( BoatType.BATEAU_A_MOTEUR,"https://www.crouesty-location.com/bateau/zodiac-medline-660/"));
     }
 }

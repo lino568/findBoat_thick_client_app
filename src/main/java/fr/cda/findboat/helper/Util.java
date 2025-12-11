@@ -1,10 +1,8 @@
 package fr.cda.findboat.helper;
 
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import io.github.cdimascio.dotenv.Dotenv;
 
 public class Util {
 
-    public static Logger log = LoggerFactory.getLogger(Util.class);
+    public static final Dotenv dotenv = Dotenv.load();
 }

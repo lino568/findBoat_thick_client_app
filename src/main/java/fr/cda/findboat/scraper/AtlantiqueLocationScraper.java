@@ -15,6 +15,15 @@ public class AtlantiqueLocationScraper {
 
     private static final String baseUrl = "https://www.atlantique-location.fr";
 
+    private AtlantiqueLocationScraper() {
+    }
+
+    /**
+     * Configure les paramètres de scraping selon le type de bateau.
+     *
+     * @param boatType le type de bateau recherché
+     * @return le document HTML de la page correspondante
+     */
     public static Document setParameters(BoatType boatType) {
 
         String url = "";
@@ -31,6 +40,12 @@ public class AtlantiqueLocationScraper {
         }
     }
 
+    /**
+     * Extrait les liens des bateaux depuis le document HTML.
+     *
+     * @param document le document HTML à parser
+     * @return la liste des URLs des bateaux
+     */
     public static List<String> getLinks(Document document) {
 
         int maxLinks = 50;
@@ -48,10 +63,18 @@ public class AtlantiqueLocationScraper {
         return links;
     }
 
+    /**
+     * Récupère les données d'un bateau depuis son URL.
+     *
+     * @param type le type de bateau
+     * @param link l'URL de la page du bateau
+     * @return un HashMap contenant toutes les données du bateau
+     */
     public static HashMap<String, String> getBoatData(BoatType type, String link) {
         HashMap<String, String> boatData = new HashMap<>();
         String description = "";
         String capacity = "";
+        String price = "";
 
         try {
             Document boatPage = Jsoup.connect(link).get();
@@ -62,7 +85,7 @@ public class AtlantiqueLocationScraper {
 
             if (type == BoatType.VOILIER) {
                 Element commentBlock = caracteristicTable.select("tr.contenu").get(2);
-                description = caracteristicTable.select("td").text();
+                description = commentBlock.select("td").text();
             }
 
             Element caractTable = boatPage.select("table.caracteristiques_generales").first();
@@ -84,7 +107,7 @@ public class AtlantiqueLocationScraper {
             String picture = pictureDiv.select("img").attr("src");
 
             Element priceTable = boatPage.select("table.tarifs").first();
-            String price = priceTable.select("tbody td").get(3).text();
+            price = priceTable.select("tbody td").get(type == BoatType.BATEAU_A_MOTEUR ? 3 : 0).text();
 
             boatData.put("title", title);
             boatData.put("description", description);
@@ -93,6 +116,8 @@ public class AtlantiqueLocationScraper {
             boatData.put("capacity", capacity);
             boatData.put("pictureUrl", picture);
             boatData.put("weekPrice", price);
+            boatData.put("boatUrl", link);
+            boatData.put("type", type.getLibelle());
 
             return boatData;
 
@@ -101,22 +126,15 @@ public class AtlantiqueLocationScraper {
         }
     }
 
+    /**
+     * Extrait l'URL depuis l'attribut onClick d'un élément.
+     *
+     * @param onClick l'élément contenant l'attribut onClick
+     * @return l'URL extraite
+     */
     private static String extractUrl(Element onClick) {
         String url = onClick.attr("onClick");
         String afterEqual = url.split("=")[1];
         return afterEqual.replace("'", "").replace("\"", "").trim();
-    }
-
-    public static void main(String[] args) {
-        List<HashMap<String, String>> boatData = new ArrayList<>();
-        Document dom = setParameters(BoatType.VOILIER);
-        List<String> links = getLinks(dom);
-//        System.out.println(links);
-        for (String link : links) {
-            boatData.add(getBoatData(BoatType.VOILIER, link));
-        }
-        System.out.println(boatData);
-
-//        System.out.println(AtlantiqueLocationScraper.getBoatData("https://www.atlantique-location.fr/location-bateau-moteur/highfield-escape-540-family/grospere-1"));
     }
 }
