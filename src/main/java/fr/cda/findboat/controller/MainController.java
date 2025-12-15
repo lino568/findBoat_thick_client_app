@@ -14,10 +14,7 @@ import fr.cda.findboat.service.DatabaseInfoService;
 import fr.cda.findboat.service.PDFService;
 import fr.cda.findboat.service.SaveDataService;
 import fr.cda.findboat.task.TaskAutoComplete;
-import fr.cda.findboat.view.DatabaseInfoViewImpl;
-import fr.cda.findboat.view.EmailForPdfImpl;
-import fr.cda.findboat.view.MainViewInterface;
-import fr.cda.findboat.view.SaveDataViewImpl;
+import fr.cda.findboat.view.*;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -70,6 +67,7 @@ public class MainController {
         mainView.setOpenEmailPdfWindow(e -> openEmailPdfWindow());
         mainView.setOpenBddInfoWindow(e -> openDatabaseInfoWindow());
         mainView.setOpenSaveDataWindow(e -> openSaveDataWindow());
+        mainView.setOpenInfoWindow(e -> openInfoWindow());
     }
 
     /**
@@ -321,6 +319,24 @@ public class MainController {
 
         } catch (Exception e) {
             log.error("Erreur lors de l'ouverture de la fenêtre information BDD", e);
+            this.mainView.setErrorMessage(errorOpenWindow);
+        }
+    }
+
+    /**
+     * Ouvre la fenêtre modale du manuel utilisateur.
+     */
+    private void openInfoWindow() {
+
+        try {
+            // Charger le FXML
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/fr/cda/findboat/info-view.fxml"));
+            Parent root = loader.load();
+
+            createStage("Manuel utilisateur", root);
+
+        } catch (Exception e) {
+            log.error("Erreur lors de l'ouverture de la fenêtre manuel utilisateur", e);
             this.mainView.setErrorMessage(errorOpenWindow);
         }
     }

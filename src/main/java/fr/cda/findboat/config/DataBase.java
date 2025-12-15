@@ -7,6 +7,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import javax.crypto.SecretKey;
+import java.lang.reflect.Field;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
@@ -15,6 +16,7 @@ public class DataBase {
 
     private static DataBase instance;
     private Connection connection;
+    private static boolean testMode = false;
     private final Logger log = LoggerFactory.getLogger(DataBase.class);
 
     /**
@@ -22,6 +24,12 @@ public class DataBase {
      * Charge la configuration chiffrée et initialise la connexion.
      */
     private DataBase() {
+
+        // Si on est en mode test, ne rien faire
+        if (testMode) {
+            return;
+        }
+
         try {
             ObjectNode dbInfoJson;
             AESKeyManager.generateAndSaveKey();
@@ -42,7 +50,7 @@ public class DataBase {
             InitDatabase.initializeDatabase(connection);
 
         } catch (SQLException e) {
-            this.log.warn("Problème de connexion à la BDD : {}",  e.getMessage());
+            this.log.warn("Problème de connexion à la BDD : {}", e.getMessage());
             throw new RuntimeException("Erreur de connexion à la base de données");
         } catch (Exception e) {
             throw new RuntimeException(e);
@@ -70,6 +78,10 @@ public class DataBase {
         return this.connection;
     }
 
+    private void setConnection(Connection connection) {
+        this.connection = connection;
+    }
+
     /**
      * Vérifie si une connexion peut être établie avec les paramètres fournis.
      *
@@ -93,5 +105,34 @@ public class DataBase {
         } catch (SQLException _) {
             return false;
         }
+    }
+
+    /**
+     * MÉTHODE POUR LES TESTS - Injecte une connexion sans appeler le constructeur
+     */
+    public static void setTestConnection(Connection testConnection) {
+        // Activer le mode test
+        testMode = true;
+
+        // Créer l'instance vide
+        instance = new DataBase();
+
+        // Injecter la connexion via le setter privé (plus simple !)
+        instance.setConnection(testConnection);
+    }
+
+    /**
+     * Réinitialise l'instance (utile pour les tests).
+     */
+    public static void resetInstance() {
+        if (instance != null && instance.connection != null) {
+            try {
+                instance.connection.close();
+            } catch (SQLException e) {
+                throw new  RuntimeException(e);
+            }
+        }
+        instance = null;
+        testMode = false;
     }
 }

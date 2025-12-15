@@ -2,7 +2,6 @@ package fr.cda.findboat.repository;
 
 import fr.cda.findboat.config.DataBase;
 import fr.cda.findboat.factory.TypeFactory;
-import fr.cda.findboat.model.Boat;
 import fr.cda.findboat.model.Type;
 
 import java.sql.Connection;

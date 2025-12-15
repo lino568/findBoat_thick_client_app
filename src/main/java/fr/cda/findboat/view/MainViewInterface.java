@@ -34,5 +34,6 @@ public interface MainViewInterface {
     void setOpenEmailPdfWindow(EventHandler<ActionEvent> listener);
     void setOpenBddInfoWindow(EventHandler<ActionEvent> listener);
     void setOpenSaveDataWindow(EventHandler<ActionEvent> listener);
+    void setOpenInfoWindow(EventHandler<ActionEvent> listener);
 
 }

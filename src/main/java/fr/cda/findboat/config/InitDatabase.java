@@ -65,7 +65,7 @@ public class InitDatabase {
      * @param connection la connexion à la base de données
      * @throws SQLException si une erreur SQL survient
      */
-    private static void createTypeTable(Connection connection) throws SQLException {
+    public static void createTypeTable(Connection connection) throws SQLException {
         String query = """
                 CREATE TABLE type(
                    idType INT AUTO_INCREMENT,
@@ -85,7 +85,7 @@ public class InitDatabase {
      * @param connection la connexion à la base de données
      * @throws SQLException si une erreur SQL survient
      */
-    private static void createBoatTable(Connection connection) throws SQLException {
+    public static void createBoatTable(Connection connection) throws SQLException {
         String query = """
                 CREATE TABLE boat(
                    idBoat INT AUTO_INCREMENT,

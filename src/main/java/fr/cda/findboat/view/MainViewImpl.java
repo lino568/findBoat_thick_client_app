@@ -90,6 +90,8 @@ public class MainViewImpl implements MainViewInterface {
     private MenuItem saveBdd;
     @FXML
     private MenuItem exit;
+    @FXML
+    private MenuItem info;
 
     private Popup popup;
     private ListView<String> listView;
@@ -273,6 +275,11 @@ public class MainViewImpl implements MainViewInterface {
     @Override
     public void setOpenSaveDataWindow(EventHandler<ActionEvent> listener) {
         this.saveBdd.setOnAction(listener);
+    }
+
+    @Override
+    public void setOpenInfoWindow(EventHandler<ActionEvent> listener) {
+        this.info.setOnAction(listener);
     }
 
     private void setTableColumn() {

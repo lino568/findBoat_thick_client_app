@@ -62,7 +62,6 @@ public class PDFService {
      * @param file Fichier de destination
      */
     public static void createPDFTable(List<Boat> boats, File file) throws IOException {
-        // S'assurer que le répertoire parent existe
         if (file.getParentFile() != null && !file.getParentFile().exists()) {
             file.getParentFile().mkdirs();
         }
